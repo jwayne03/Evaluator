@@ -2,7 +2,9 @@ package Persitence;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.xml.sax.SAXException;
 
+import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.Result;
@@ -24,11 +26,14 @@ public class GenerateDOM {
     // Create consturctor for generate new DOM
     public GenerateDOM() {
         try {
-            document = DocumentBuilderFactory
-                    .newInstance()
-                    .newDocumentBuilder()
-                    .newDocument();
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            generateXML(builder);
         } catch (ParserConfigurationException e) {
+            e.printStackTrace();
+        } catch (SAXException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -36,33 +41,20 @@ public class GenerateDOM {
     // Generate new document
     // TODO: set atributes with user information
     public void generateDocument() {
-        Element students = document.createElement("students");
-        document.appendChild(students);
+        Element school = document.createElement("stucom");
+        document.appendChild(school);
 
-        Element student = document.createElement("student");
-        students.appendChild(student);
-//        student.setAttribute("code", "1");
+        Element student = document.createElement("wayne");
+        school.appendChild(student);
 
-        Element name = document.createElement("name");
-        name.appendChild(document.createTextNode("Keyboard"));
-        student.appendChild(name);
+        Element subject = document.createElement("java");
+        student.appendChild(subject);
     }
 
     // Generate new document XML
-    public void generateXML() {
-        TransformerFactory factory = TransformerFactory.newInstance();
-        try {
-            Transformer transformer = factory.newTransformer();
-
-            Source source = new DOMSource(document);
-            File file = new File("students.xml");
-            FileWriter fileWriter = new FileWriter(file);
-            PrintWriter printWriter = new PrintWriter(fileWriter);
-            Result result = new StreamResult(printWriter);
-
-            transformer.transform(source, result);
-        } catch (IOException | TransformerException e) {
-            e.printStackTrace();
-        }
+    public void generateXML(DocumentBuilder builder) throws IOException, SAXException {
+        File file = new File("students.xml");
+        if (!file.exists()) document = builder.newDocument();
+        else builder.parse("students.xml");
     }
 }
