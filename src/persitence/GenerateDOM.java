@@ -106,23 +106,18 @@ public class GenerateDOM {
         for (int i = 0; i < studentList.getLength(); i++) {
             Node node = studentList.item(i);
             System.out.print("<" + node.getNodeName());
-
             if (node != null && node.getNodeType() == Node.ELEMENT_NODE) {
                 NamedNodeMap map = node.getAttributes();
                 for (int j = 0; j < map.getLength(); j++) {
                     System.out.print(" " + map.item(j).getNodeName() + "='" + map.item(j).getNodeValue().toString() + "'");
                 }
-
                 System.out.print(">\n");
 
                 NodeList nodeList = node.getChildNodes();
-
                 for (int h = 0; h < nodeList.getLength(); h++) {
                     Node childNode = nodeList.item(h);
 
                     if (childNode != null && childNode.getNodeType() == Node.ELEMENT_NODE) {
-
-
                         if (childNode.getNodeName().equals("subject")) {
                             NamedNodeMap namedNodeMap = childNode.getAttributes();
                             System.out.print("	<" + childNode.getNodeName());
