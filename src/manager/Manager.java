@@ -23,7 +23,7 @@ public class Manager implements Runnable {
     public void generateDOM() {
         GenerateDOM generateDOM = new GenerateDOM();
         generateDOM.generateDocument();
-//        generateDOM.generateXML();
+        generateDOM.generateXML();
     }
 }
 
