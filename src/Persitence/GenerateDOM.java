@@ -2,6 +2,9 @@ package Persitence;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -18,18 +21,24 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 
 public class GenerateDOM {
 
     private Document document;
+    private Element school;
+    private Element student;
+    private Element studentName;
+    private Element subjectName;
+    private Element subjectGrade;
     private File file;
 
     // Create consturctor for generate new DOM
     public GenerateDOM() {
         try {
-            file = new File("students.xml");
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = factory.newDocumentBuilder();
+            file = new File("students.xml");
             if (!file.exists()) {
                 document = builder.newDocument();
             } else {
@@ -41,16 +50,40 @@ public class GenerateDOM {
     }
 
     // Generate new document
-    // TODO: set atributes with user information
     public void generateDocument() {
-        Element school = document.createElement("stucom");
-        document.appendChild(school);
+        if (file.exists()) {
+            school = searchNode();
+        } else {
+            school = document.createElement("stucom");
+            document.appendChild(school);
+        }
 
-        Element student = document.createElement("wayne");
+//        Element subject = document.createElement("subject");
+//        student.appendChild(subject);
+    }
+
+    public Element searchNode() {
+        NodeList studentList = document.getElementsByTagName("stucom");
+        Node node = studentList.item(0);
+        return (Element) node;
+    }
+
+    public void student(String name, String dni) {
+        student = document.createElement("student");
+        studentName = document.createElement("name");
+        student.appendChild(studentName);
+        studentName.setTextContent(name);
+        student.setAttribute("dni", dni);
         school.appendChild(student);
+    }
 
-        Element subject = document.createElement("java");
-        student.appendChild(subject);
+    public void grades(String dni, String subject, int grade) {
+        subjectName = document.createElement("subject");
+        subjectGrade = document.createElement("grade");
+        student.appendChild(subjectName);
+        subjectName.setAttribute("name", subject);
+        subjectGrade.setTextContent(String.valueOf(grade));
+        subjectName.appendChild(subjectGrade);
     }
 
     // Generate new document XML
@@ -66,6 +99,35 @@ public class GenerateDOM {
             fw.close();
         } catch (IOException | TransformerException e) {
             e.printStackTrace();
+        }
+    }
+
+    public void readFile() {
+        document.getDocumentElement().normalize();
+        NodeList studentList = document.getElementsByTagName("student");
+
+        for (int i = 0; i < studentList.getLength(); i++) {
+            Node node = studentList.item(i);
+            System.out.print("<" + node.getNodeName());
+
+            if (node != null && node.getNodeType() == Node.ELEMENT_NODE) {
+                NamedNodeMap map = node.getAttributes();
+                for (int j = 0; j < map.getLength(); j++) {
+                    System.out.print(" " + map.item(j).getNodeName() + "='" + map.item(j).getNodeValue().toString() + "'");
+                }
+
+                System.out.print(">\n");
+
+                NodeList nodeList = node.getChildNodes();
+                for (int h = 0; h < nodeList.getLength(); h++) {
+                    Node childNode = nodeList.item(h);
+                    if (childNode != null && childNode.getNodeType() == Node.ELEMENT_NODE) {
+                        System.out.print("	<" + childNode.getNodeName() + ">" + childNode.getTextContent()
+                                + "</" + childNode.getNodeName() + ">\n");
+                    }
+                }
+            }
+            System.out.print("</" + node.getNodeName() + ">\n");
         }
     }
 }

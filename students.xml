@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <stucom>
-    <wayne>
-        <java/>
-    </wayne>
+    <student dni="123123">
+        <name>wayne</name>
+    </student>
+    <student dni="420">
+        <name>nicole</name>
+    </student>
+    <student dni="000">
+        <name>karen</name>
+        <subject name="math">
+            <grade>10</grade>
+        </subject>
+    </student>
 </stucom>
