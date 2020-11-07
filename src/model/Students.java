@@ -1,5 +1,9 @@
 package model;
 
+/**
+ * @author John Wayne Carreon
+ */
+
 public class Students {
 
     private String name;

@@ -1,4 +1,4 @@
-package Persitence;
+package persitence;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -21,8 +21,10 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
 
+/**
+ * @author John Wayne Carreon
+ */
 public class GenerateDOM {
 
     private Document document;
@@ -33,12 +35,12 @@ public class GenerateDOM {
     private Element subjectGrade;
     private File file;
 
-    // Create consturctor for generate new DOM
     public GenerateDOM() {
         try {
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = factory.newDocumentBuilder();
             file = new File("students.xml");
+
             if (!file.exists()) {
                 document = builder.newDocument();
             } else {
@@ -49,7 +51,6 @@ public class GenerateDOM {
         }
     }
 
-    // Generate new document
     public void generateDocument() {
         if (file.exists()) {
             school = searchNode();
@@ -57,9 +58,6 @@ public class GenerateDOM {
             school = document.createElement("stucom");
             document.appendChild(school);
         }
-
-//        Element subject = document.createElement("subject");
-//        student.appendChild(subject);
     }
 
     public Element searchNode() {
@@ -79,14 +77,13 @@ public class GenerateDOM {
 
     public void grades(String dni, String subject, int grade) {
         subjectName = document.createElement("subject");
-        subjectGrade = document.createElement("grade");
         student.appendChild(subjectName);
         subjectName.setAttribute("name", subject);
+        subjectGrade = document.createElement("grade");
         subjectGrade.setTextContent(String.valueOf(grade));
         subjectName.appendChild(subjectGrade);
     }
 
-    // Generate new document XML
     public void generateXML() {
         try {
             Transformer transformer = TransformerFactory.newInstance().newTransformer(); //Pasa de memoria a disco
@@ -119,11 +116,36 @@ public class GenerateDOM {
                 System.out.print(">\n");
 
                 NodeList nodeList = node.getChildNodes();
+
                 for (int h = 0; h < nodeList.getLength(); h++) {
                     Node childNode = nodeList.item(h);
+
                     if (childNode != null && childNode.getNodeType() == Node.ELEMENT_NODE) {
-                        System.out.print("	<" + childNode.getNodeName() + ">" + childNode.getTextContent()
-                                + "</" + childNode.getNodeName() + ">\n");
+
+
+                        if (childNode.getNodeName().equals("subject")) {
+                            NamedNodeMap namedNodeMap = childNode.getAttributes();
+                            System.out.print("	<" + childNode.getNodeName());
+                            for (int x = 0; x < namedNodeMap.getLength(); x++) {
+                                System.out.print(" " + namedNodeMap.item(x).getNodeName() + "='" + namedNodeMap.item(x).getNodeValue().toString() + "'");
+                            }
+
+                            System.out.println(">");
+
+                            NodeList grades = childNode.getChildNodes();
+                            Node childGrade = grades.item(1);
+
+                            if (childGrade != null && childGrade.getNodeType() == Node.ELEMENT_NODE) {
+                                System.out.print("	    <" + childGrade.getNodeName() + ">");
+                                System.out.print(childGrade.getTextContent());
+                                System.out.print("</" + childGrade.getNodeName() + ">\n");
+                            }
+                            System.out.println("    </" + childNode.getNodeName() + ">");
+                        } else {
+                            System.out.print("	<" + childNode.getNodeName() + ">");
+                            System.out.print(childNode.getTextContent());
+                            System.out.println("</" + childNode.getNodeName() + ">");
+                        }
                     }
                 }
             }
@@ -131,3 +153,4 @@ public class GenerateDOM {
         }
     }
 }
+
