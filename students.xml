@@ -7,6 +7,9 @@
         <subject name="android">
             <grade>9.0</grade>
         </subject>
+        <subject name="math">
+            <grade>8.0</grade>
+        </subject>
     </student>
     <student dni="222">
         <name>karen</name>
@@ -29,8 +32,15 @@
         <subject name="science">
             <grade>10.0</grade>
         </subject>
-    </student>
-    
-<student dni="222">
+    <subject name="english"><grade>10.0</grade></subject></student>
+    <student dni="222">
         <name>aa</name>
-    <name>add</name></student></stucom>
+        <name>add</name>
+    </student>
+    <student dni="000">
+        <name>nadi</name>
+        <subject name="java">
+            <grade>10.0</grade>
+        </subject>
+    <subject name="ios"><grade>10.0</grade></subject></student>
+</stucom>

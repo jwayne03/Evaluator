@@ -43,45 +43,19 @@ public class Manager implements Runnable {
             int option = Worker.askInt("Introduce an option:");
 
             switch (option) {
-                case 1:
-                    createStudent();
-                    break;
-                case 2:
-                    introduceSubjectIntoGrade();
-                    break;
-                case 3:
-                    showInfo();
-                    break;
-                case 4:
-                    saveData();
-                    break;
-                case 5:
-                    giveGradesAverage();
-                    break;
-                case 6:
-                    giveStudentGradeAverage();
-                    break;
-                case 0:
+                case 1 -> createStudent();
+                case 2 -> introduceSubjectIntoGrade();
+                case 3 -> showInfo();
+                case 4 -> saveData();
+                case 5 -> giveGradesAverage();
+                case 6 -> giveStudentGradeAverage();
+                case 0 -> {
                     System.out.println("You have decided to finish, goodbye!");
                     exit = true;
-                    break;
-                default:
-                    System.out.println("You need to introduce an option");
-                    break;
+                }
+                default -> System.out.println("You need to introduce an option");
             }
         }
-    }
-
-    private void printMenu() {
-        System.out.println("-----------------------------------\n"
-                + "1 - Insert student\n"
-                + "2 - Introduce a grade in a subject\n"
-                + "3 - Show info\n"
-                + "4 - Save data\n"
-                + "5 - Give average of subject\n"
-                + "6 - Give student grade average\n"
-                + "0 - Exit\n"
-                + "-----------------------------------\n");
     }
 
     private void createStudent() {
@@ -123,6 +97,18 @@ public class Manager implements Runnable {
 
     private void giveStudentGradeAverage() {
 
+    }
+
+    private void printMenu() {
+        System.out.println("-----------------------------------\n"
+                + "1 - Insert student\n"
+                + "2 - Introduce a grade in a subject\n"
+                + "3 - Show info\n"
+                + "4 - Save data\n"
+                + "5 - Give average of subject\n"
+                + "6 - Give student grade average\n"
+                + "0 - Exit\n"
+                + "-----------------------------------\n");
     }
 }
 

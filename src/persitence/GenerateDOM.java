@@ -1,5 +1,6 @@
 package persitence;
 
+import org.jetbrains.annotations.NotNull;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
@@ -82,10 +83,36 @@ public class GenerateDOM {
         student = document.createElement("student");
         studentName = document.createElement("name");
         student = findDni(dni);
+        if (student == null) {
+            student = document.createElement("student");
+        }
         student.appendChild(studentName);
         studentName.setTextContent(name);
         student.setAttribute("dni", dni);
         school.appendChild(student);
+    }
+
+    private Element findDni(String dni) {
+        document.getDocumentElement().normalize();
+        Element studentNode = null;
+        NodeList studentNodeList = document.getElementsByTagName("student");
+
+        return findDniNode(dni, studentNode, studentNodeList);
+    }
+
+    private Element findDniNode(String dni, Element studentNode, @NotNull NodeList studentNodeList) {
+        for (int i = 0; i < studentNodeList.getLength(); i++) {
+            Node student = studentNodeList.item(i);
+            if (student.getNodeType() == Node.ELEMENT_NODE) {
+                NamedNodeMap namedNodeMap = student.getAttributes();
+                for (int j = 0; j < namedNodeMap.getLength(); j++) {
+                    if (namedNodeMap.item(j).getNodeValue().equalsIgnoreCase(dni)) {
+                        studentNode = (Element) student;
+                    }
+                }
+            }
+        }
+        return studentNode;
     }
 
     public void grades(String dni, String subject, double grades) {
@@ -94,24 +121,33 @@ public class GenerateDOM {
 
         if (studentNode != null) {
             if (subjectNode == null) {
-                subjectNode = document.createElement("subject");
-                subjectNode.setAttribute("name", subject);
-                studentNode.appendChild(subjectNode);
+                createGrade(subject, grades, studentNode);
+            } else {
+                System.out.println("The dni you have introduced doesn't exits");
             }
-
-            Element grade = document.createElement("grade");
-            grade.appendChild(document.createTextNode(String.valueOf(grades)));
-            subjectNode.appendChild(grade);
-            document.normalize();
-        } else {
-            System.out.println("The dni you have introduced doesn't exits");
         }
+    }
+
+    private void createGrade(String subject, double grades, Element studentNode) {
+        Element subjectNode;
+        subjectNode = document.createElement("subject");
+        subjectNode.setAttribute("name", subject);
+        studentNode.appendChild(subjectNode);
+
+        Element grade = document.createElement("grade");
+        grade.appendChild(document.createTextNode(String.valueOf(grades)));
+        subjectNode.appendChild(grade);
+        document.normalize();
     }
 
     private Element findSubject(String dni, String subject) {
         Element subjectNode = null;
         Element studentNode = findDni(dni);
 
+        return findSubjectNode(subject, subjectNode, studentNode);
+    }
+
+    private Element findSubjectNode(String subject, Element subjectNode, Element studentNode) {
         if (studentNode != null) {
             NodeList childNodeStudent = studentNode.getChildNodes();
             if (studentNode.getNodeType() == Node.ELEMENT_NODE) {
@@ -131,29 +167,9 @@ public class GenerateDOM {
         return subjectNode;
     }
 
-    private Element findDni(String dni) {
-        document.getDocumentElement().normalize();
-        Element studentNode = null;
-        NodeList studentNodeList = document.getElementsByTagName("student");
-
-        for (int i = 0; i < studentNodeList.getLength(); i++) {
-            Node student = studentNodeList.item(i);
-            if (student.getNodeType() == Node.ELEMENT_NODE) {
-                NamedNodeMap namedNodeMap = student.getAttributes();
-                for (int j = 0; j < namedNodeMap.getLength(); j++) {
-                    if (namedNodeMap.item(j).getNodeValue().equalsIgnoreCase(dni)) {
-                        studentNode = (Element) student;
-                    }
-                }
-            }
-        }
-        return studentNode;
-    }
-
     public void readFile() {
         document.getDocumentElement().normalize();
         NodeList studentList = document.getElementsByTagName("student");
-
         for (int i = 0; i < studentList.getLength(); i++) {
             Node node = studentList.item(i);
             System.out.print("<" + node.getNodeName());
@@ -179,12 +195,13 @@ public class GenerateDOM {
                             System.out.println(">");
 
                             NodeList grades = childNode.getChildNodes();
-                            Node childGrade = grades.item(1);
-
-                            if (childGrade != null && childGrade.getNodeType() == Node.ELEMENT_NODE) {
-                                System.out.print("	    <" + childGrade.getNodeName() + ">");
-                                System.out.print(childGrade.getTextContent());
-                                System.out.print("</" + childGrade.getNodeName() + ">\n");
+                            for (int j = 0; j < grades.getLength(); j++) {
+                                Node childGrade = grades.item(j);
+                                if (childGrade != null && childGrade.getNodeType() == Node.ELEMENT_NODE) {
+                                    System.out.print("	    <" + childGrade.getNodeName() + ">");
+                                    System.out.print(childGrade.getTextContent());
+                                    System.out.print("</" + childGrade.getNodeName() + ">\n");
+                                }
                             }
                             System.out.println("    </" + childNode.getNodeName() + ">");
                         } else {
