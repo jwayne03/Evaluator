@@ -9,13 +9,17 @@ public class Students {
     private String name;
     private String dni;
     private String subject;
-    private double grades;
+    private String grades;
 
-    public Students(String name, String dni, String subject, double grades) {
+    public Students(String name, String dni, String subject, String grades) {
         this.name = name;
         this.dni = dni;
         this.subject = subject;
         this.grades = grades;
+    }
+
+    public Students() {
+
     }
 
     public String getName() {
@@ -42,11 +46,11 @@ public class Students {
         this.subject = subject;
     }
 
-    public double getGrades() {
+    public String getGrades() {
         return grades;
     }
 
-    public void setGrades(int grades) {
+    public void setGrades(String grades) {
         this.grades = grades;
     }
 
@@ -54,8 +58,8 @@ public class Students {
     public String toString() {
         return "Students: " +
                 " Name: " + name +
-                " DNI: '" + dni +
-                " Subject: '" + subject +
-                " Grades: " + grades;
+                " DNI: " + dni +
+                " Subject: " + subject +
+                " Grade: " + grades;
     }
 }

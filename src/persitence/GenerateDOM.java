@@ -81,6 +81,7 @@ public class GenerateDOM {
     public void student(String name, String dni) {
         student = document.createElement("student");
         studentName = document.createElement("name");
+        student = findDni(dni);
         student.appendChild(studentName);
         studentName.setTextContent(name);
         student.setAttribute("dni", dni);
@@ -102,6 +103,8 @@ public class GenerateDOM {
             grade.appendChild(document.createTextNode(String.valueOf(grades)));
             subjectNode.appendChild(grade);
             document.normalize();
+        } else {
+            System.out.println("The dni you have introduced doesn't exits");
         }
     }
 

@@ -1,6 +1,8 @@
 package persitence;
 
 import model.Students;
+import org.xml.sax.Attributes;
+import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 import java.util.ArrayList;
@@ -8,12 +10,47 @@ import java.util.List;
 
 public class SaxVersion extends DefaultHandler {
 
-    private List<Students> students = new ArrayList<>();
-    private StringBuilder stringBuilder = new StringBuilder();
+    private final List<Students> students = new ArrayList<>();
+    private final StringBuilder stringBuilder = new StringBuilder();
     private Students student;
 
-    public List<Students> getStudents() {
+    public List<Students> getGradeAverage() {
         return students;
     }
 
+    @Override
+    public void characters(char[] ch, int start, int length) {
+        stringBuilder.append(ch, start, length);
+    }
+
+    @Override
+    public void endElement(String uri, String localName, String qName) throws SAXException {
+        switch (qName) {
+            case "name":
+                student.setName(stringBuilder.toString());
+                break;
+            case "subject":
+                student.setSubject(stringBuilder.toString());
+                break;
+            case "grade":
+                student.setGrades(stringBuilder.toString());
+                break;
+        }
+    }
+
+    @Override
+    public void startElement(String uri, String localName, String qName, Attributes attributes) {
+        switch (qName) {
+            case "student":
+                student = new Students();
+                students.add(student);
+                student.setDni(attributes.getValue("dni"));
+            case "name":
+            case "subject":
+                student.setSubject(attributes.getValue("name"));
+            case "grade":
+                stringBuilder.delete(0, stringBuilder.length());
+                break;
+        }
+    }
 }

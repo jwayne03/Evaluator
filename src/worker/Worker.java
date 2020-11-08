@@ -15,7 +15,7 @@ import java.util.ArrayList;
 public class Worker {
 
     /**
-     * @param message
+     * @param message String message
      * @ this function is for ask to introduce a String and controls
      * if the string is correctly introduced, and controls if
      * you introduce a Integer type or null parameter.
@@ -38,9 +38,10 @@ public class Worker {
     }
 
     /**
-     * @param message this function is for ask to introduce a String and convert
-     *                to lower case and controls if the string is correctly introduced,
-     *                and controls if you introduce a Integer type or null parameter.
+     * @param message String message
+     * this function is for ask to introduce a String and convert
+     * to lower case and controls if the string is correctly introduced,
+     * and controls if you introduce a Integer type or null parameter.
      */
     public static String askStringToLowerCase(String message) {
         BufferedReader read = new BufferedReader(new InputStreamReader(System.in));
@@ -59,9 +60,10 @@ public class Worker {
     }
 
     /**
-     * @param message this function is for ask to introduce a String and convert
-     *                to upper case and controls if the string is correctly introduced,
-     *                and controls if you introduce a Integer type or null parameter.
+     * @param message String message
+     * this function is for ask to introduce a String and convert
+     * to upper case and controls if the string is correctly introduced,
+     * and controls if you introduce a Integer type or null parameter.
      */
     public static String askStringToUpperCase(String message) {
         BufferedReader read = new BufferedReader(new InputStreamReader(System.in));
@@ -80,9 +82,9 @@ public class Worker {
     }
 
     /**
-     * @param message
-     * @param a
-     * @param b
+     * @param message String message
+     * @param a String a
+     * @param b String b
      * @return askString function check if the string is introduced correctly
      * and have two parameters a , b and returns
      */
@@ -99,8 +101,8 @@ public class Worker {
     }
 
     /**
-     * @param message
-     * @param wordsAccepted
+     * @param message String message
+     * @param wordsAccepted ArrayList<String>
      * @return askString function have parameter wordsAccepted, is an ArrayList<>
      * and check if the data introduce is the same that contains in the ArrayList<>
      */
@@ -121,8 +123,8 @@ public class Worker {
     }
 
     /**
-     * @param word
-     * @param wordsAccepted
+     * @param word String word
+     * @param wordsAccepted ArrayList<String>
      * @return check if the word introduced equals the String inside of the ArrayList
      */
     private static boolean wordIsOk(String word, ArrayList<String> wordsAccepted) {
@@ -135,7 +137,7 @@ public class Worker {
     }
 
     /**
-     * @param message
+     * @param message String message
      * @return askInt check if the input is an Integer and controls error,
      * if the data introduce is null or a String
      */
@@ -160,9 +162,9 @@ public class Worker {
     }
 
     /**
-     * @param message
-     * @param min
-     * @param max
+     * @param message String message
+     * @param min int min
+     * @param max int max
      * @return askInt, this function ask an int and only accepts between min and max
      */
     public static int askInt(String message, int min, int max) {
@@ -177,7 +179,7 @@ public class Worker {
     }
 
     /**
-     * @param message
+     * @param message String message
      * @return this function accept double and int and control if the user
      * introduce a number and not a String
      */
@@ -202,9 +204,9 @@ public class Worker {
     }
 
     /**
-     * @param message
-     * @param min
-     * @param max
+     * @param message String message
+     * @param min int min
+     * @param max int max
      * @return function to askDouble between min and max
      */
     public static double askDouble(String message, int min, int max) {

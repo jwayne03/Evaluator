@@ -1,7 +1,17 @@
 package manager;
 
+import model.Students;
+import org.xml.sax.SAXException;
 import persitence.GenerateDOM;
+import persitence.SaxVersion;
 import worker.Worker;
+
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
+import java.io.File;
+import java.io.IOException;
+import java.util.List;
 
 /**
  * @author John Wayne Carreon
@@ -23,10 +33,6 @@ public class Manager implements Runnable {
 
     @Override
     public void run() {
-        menu();
-    }
-
-    private void menu() {
         generateDOM.generateDocument();
 
         boolean exit = false;
@@ -74,7 +80,7 @@ public class Manager implements Runnable {
                 + "4 - Save data\n"
                 + "5 - Give average of subject\n"
                 + "6 - Give student grade average\n"
-                + "0 - Exit"
+                + "0 - Exit\n"
                 + "-----------------------------------\n");
     }
 
@@ -100,7 +106,19 @@ public class Manager implements Runnable {
     }
 
     private void giveGradesAverage() {
+        try {
+            SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
+            SAXParser saxParser = saxParserFactory.newSAXParser();
+            File file = new File("students.xml");
+            SaxVersion saxVersion = new SaxVersion();
+            saxParser.parse(file, saxVersion);
+            List<Students> students = saxVersion.getGradeAverage();
 
+            for (Students student : students) System.out.println(student.toString());
+
+        } catch (ParserConfigurationException | IOException | SAXException e) {
+            e.printStackTrace();
+        }
     }
 
     private void giveStudentGradeAverage() {
