@@ -9,9 +9,9 @@ public class Students {
     private String name;
     private String dni;
     private String subject;
-    private int grades;
+    private double grades;
 
-    public Students(String name, String dni, String subject, int grades) {
+    public Students(String name, String dni, String subject, double grades) {
         this.name = name;
         this.dni = dni;
         this.subject = subject;
@@ -42,7 +42,7 @@ public class Students {
         this.subject = subject;
     }
 
-    public int getGrades() {
+    public double getGrades() {
         return grades;
     }
 

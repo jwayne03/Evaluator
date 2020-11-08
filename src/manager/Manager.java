@@ -37,25 +37,15 @@ public class Manager implements Runnable {
             int option = Worker.askInt("Introduce an option:");
 
             switch (option) {
-                case 1 :
-                    createStudent();
-                    break;
-                case 2 :
-                    introduceSubjectIntoGrade();
-                    break;
-                case 3 :
-                    showInfo();
-                    break;
-                case 4 :
-                    saveData();
-                    break;
-                case 0 :
+                case 1 -> createStudent();
+                case 2 -> introduceSubjectIntoGrade();
+                case 3 -> showInfo();
+                case 4 -> saveData();
+                case 0 -> {
                     System.out.println("You have decided to finish, goodbye!");
                     exit = true;
-                    break;
-                default :
-                    System.out.println("You need to introduce an option");
-                    break;
+                }
+                default -> System.out.println("You need to introduce an option");
             }
         }
     }
@@ -76,7 +66,7 @@ public class Manager implements Runnable {
     private void introduceSubjectIntoGrade() {
         String dni = Worker.askString("Introduce de DNI of the student to set the grade:");
         String subject = Worker.askString("Introduce the name of the subject");
-        int grade = Worker.askInt("Introduce the grade of the student");
+        double grade = Worker.askDouble("Introduce the grade of the student");
         generateDOM.grades(dni, subject, grade);
     }
 

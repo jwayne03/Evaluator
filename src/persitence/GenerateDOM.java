@@ -27,25 +27,22 @@ import java.io.PrintWriter;
  */
 public class GenerateDOM {
 
+    private DocumentBuilderFactory factory;
+    private DocumentBuilder builder;
     private Document document;
     private Element school;
     private Element student;
     private Element studentName;
-    private Element subjectName;
-    private Element subjectGrade;
     private File file;
 
     public GenerateDOM() {
         try {
-            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder builder = factory.newDocumentBuilder();
+            factory = DocumentBuilderFactory.newInstance();
+            builder = factory.newDocumentBuilder();
             file = new File("students.xml");
 
-            if (!file.exists()) {
-                document = builder.newDocument();
-            } else {
-                document = builder.parse("students.xml");
-            }
+            if (!file.exists()) document = builder.newDocument();
+            else document = builder.parse("students.xml");
         } catch (ParserConfigurationException | SAXException | IOException e) {
             e.printStackTrace();
         }
@@ -60,7 +57,22 @@ public class GenerateDOM {
         }
     }
 
-    public Element searchNode() {
+    public void generateXML() {
+        try {
+            Transformer transformer = TransformerFactory.newInstance().newTransformer();
+            Source source = new DOMSource(document);
+            FileWriter fw = new FileWriter(file);
+            PrintWriter pw = new PrintWriter(fw);
+            Result result = new StreamResult(pw);
+            transformer.transform(source, result);
+            pw.close();
+            fw.close();
+        } catch (IOException | TransformerException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private Element searchNode() {
         NodeList studentList = document.getElementsByTagName("stucom");
         Node node = studentList.item(0);
         return (Element) node;
@@ -75,28 +87,64 @@ public class GenerateDOM {
         school.appendChild(student);
     }
 
-    public void grades(String dni, String subject, int grade) {
-        subjectName = document.createElement("subject");
-        student.appendChild(subjectName);
-        subjectName.setAttribute("name", subject);
-        subjectGrade = document.createElement("grade");
-        subjectGrade.setTextContent(String.valueOf(grade));
-        subjectName.appendChild(subjectGrade);
+    public void grades(String dni, String subject, double grades) {
+        Element studentNode = findDni(dni);
+        Element subjectNode = findSubject(dni, subject);
+
+        if (studentNode != null) {
+            if (subjectNode == null) {
+                subjectNode = document.createElement("subject");
+                subjectNode.setAttribute("name", subject);
+                studentNode.appendChild(subjectNode);
+            }
+
+            Element grade = document.createElement("grade");
+            grade.appendChild(document.createTextNode(String.valueOf(grades)));
+            subjectNode.appendChild(grade);
+            document.normalize();
+        }
     }
 
-    public void generateXML() {
-        try {
-            Transformer transformer = TransformerFactory.newInstance().newTransformer(); //Pasa de memoria a disco
-            Source source = new DOMSource(document);
-            FileWriter fw = new FileWriter(file);
-            PrintWriter pw = new PrintWriter(fw);
-            Result result = new StreamResult(pw);
-            transformer.transform(source, result);
-            pw.close();
-            fw.close();
-        } catch (IOException | TransformerException e) {
-            e.printStackTrace();
+    private Element findSubject(String dni, String subject) {
+        Element subjectNode = null;
+        Element studentNode = findDni(dni);
+
+        if (studentNode != null) {
+            NodeList childNodeStudent = studentNode.getChildNodes();
+            if (studentNode.getNodeType() == Node.ELEMENT_NODE) {
+                for (int i = 0; i < childNodeStudent.getLength(); i++) {
+                    Node childNode = childNodeStudent.item(i);
+                    if (childNode.getNodeName().equalsIgnoreCase("subject")) {
+                        NamedNodeMap namedNodeMap = childNode.getAttributes();
+                        for (int j = 0; j < namedNodeMap.getLength(); j++) {
+                            if (namedNodeMap.item(j).getNodeValue().equalsIgnoreCase(subject)) {
+                                subjectNode = (Element) childNode;
+                            }
+                        }
+                    }
+                }
+            }
         }
+        return subjectNode;
+    }
+
+    private Element findDni(String dni) {
+        document.getDocumentElement().normalize();
+        Element studentNode = null;
+        NodeList studentNodeList = document.getElementsByTagName("student");
+
+        for (int i = 0; i < studentNodeList.getLength(); i++) {
+            Node student = studentNodeList.item(i);
+            if (student.getNodeType() == Node.ELEMENT_NODE) {
+                NamedNodeMap namedNodeMap = student.getAttributes();
+                for (int j = 0; j < namedNodeMap.getLength(); j++) {
+                    if (namedNodeMap.item(j).getNodeValue().equalsIgnoreCase(dni)) {
+                        studentNode = (Element) student;
+                    }
+                }
+            }
+        }
+        return studentNode;
     }
 
     public void readFile() {
@@ -108,23 +156,23 @@ public class GenerateDOM {
             System.out.print("<" + node.getNodeName());
             if (node != null && node.getNodeType() == Node.ELEMENT_NODE) {
                 NamedNodeMap map = node.getAttributes();
-                for (int j = 0; j < map.getLength(); j++) {
-                    System.out.print(" " + map.item(j).getNodeName() + "='" + map.item(j).getNodeValue().toString() + "'");
-                }
+                for (int j = 0; j < map.getLength(); j++)
+                    System.out.print(" " + map.item(j).getNodeName()
+                            + "='" + map.item(j).getNodeValue() + "'");
+
                 System.out.print(">\n");
 
                 NodeList nodeList = node.getChildNodes();
                 for (int h = 0; h < nodeList.getLength(); h++) {
                     Node childNode = nodeList.item(h);
-
                     if (childNode != null && childNode.getNodeType() == Node.ELEMENT_NODE) {
                         if (childNode.getNodeName().equals("subject")) {
                             NamedNodeMap namedNodeMap = childNode.getAttributes();
                             System.out.print("	<" + childNode.getNodeName());
-                            for (int x = 0; x < namedNodeMap.getLength(); x++) {
-                                System.out.print(" " + namedNodeMap.item(x).getNodeName() + "='" + namedNodeMap.item(x).getNodeValue().toString() + "'");
-                            }
-
+                            for (int x = 0; x < namedNodeMap.getLength(); x++)
+                                System.out.print(" " + namedNodeMap.item(x)
+                                        .getNodeName() + "='" + namedNodeMap.item(x)
+                                        .getNodeValue() + "'");
                             System.out.println(">");
 
                             NodeList grades = childNode.getChildNodes();
