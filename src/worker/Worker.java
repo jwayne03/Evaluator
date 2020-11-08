@@ -7,8 +7,19 @@ import java.util.ArrayList;
  * @author John Wayne Carreon
  */
 
+/**
+ * Worker class is composed of several functions with error control
+ * to allow having a flow of the program with everything controlled
+ * so that at no time we get an error
+ */
 public class Worker {
 
+    /**
+     * @param message
+     * @ this function is for ask to introduce a String and controls
+     * if the string is correctly introduced, and controls if
+     * you introduce a Integer type or null parameter.
+     */
     public static String askString(String message) {
         BufferedReader read = new BufferedReader(new InputStreamReader(System.in));
         String answer = "";
@@ -26,6 +37,11 @@ public class Worker {
         return answer;
     }
 
+    /**
+     * @param message this function is for ask to introduce a String and convert
+     *                to lower case and controls if the string is correctly introduced,
+     *                and controls if you introduce a Integer type or null parameter.
+     */
     public static String askStringToLowerCase(String message) {
         BufferedReader read = new BufferedReader(new InputStreamReader(System.in));
         String answer = "";
@@ -42,6 +58,11 @@ public class Worker {
         return answer;
     }
 
+    /**
+     * @param message this function is for ask to introduce a String and convert
+     *                to upper case and controls if the string is correctly introduced,
+     *                and controls if you introduce a Integer type or null parameter.
+     */
     public static String askStringToUpperCase(String message) {
         BufferedReader read = new BufferedReader(new InputStreamReader(System.in));
         String answer = "";
@@ -58,6 +79,13 @@ public class Worker {
         return answer;
     }
 
+    /**
+     * @param message
+     * @param a
+     * @param b
+     * @return askString function check if the string is introduced correctly
+     * and have two parameters a , b and returns
+     */
     public static String askString(String message, String a, String b) {
         BufferedReader read = new BufferedReader(new InputStreamReader(System.in));
         String answer = "";
@@ -70,6 +98,12 @@ public class Worker {
         return answer;
     }
 
+    /**
+     * @param message
+     * @param wordsAccepted
+     * @return askString function have parameter wordsAccepted, is an ArrayList<>
+     * and check if the data introduce is the same that contains in the ArrayList<>
+     */
     public static String askString(String message, ArrayList<String> wordsAccepted) {
         String answer;
         boolean isWordOk;
@@ -86,6 +120,11 @@ public class Worker {
         return answer;
     }
 
+    /**
+     * @param word
+     * @param wordsAccepted
+     * @return check if the word introduced equals the String inside of the ArrayList
+     */
     private static boolean wordIsOk(String word, ArrayList<String> wordsAccepted) {
         for (String w : wordsAccepted) {
             if (w.equalsIgnoreCase(word)) {
@@ -95,6 +134,11 @@ public class Worker {
         return false;
     }
 
+    /**
+     * @param message
+     * @return askInt check if the input is an Integer and controls error,
+     * if the data introduce is null or a String
+     */
     public static int askInt(String message) {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         int num = 0;
@@ -115,6 +159,12 @@ public class Worker {
         return num;
     }
 
+    /**
+     * @param message
+     * @param min
+     * @param max
+     * @return askInt, this function ask an int and only accepts between min and max
+     */
     public static int askInt(String message, int min, int max) {
         int num;
         do {
@@ -126,6 +176,11 @@ public class Worker {
         return num;
     }
 
+    /**
+     * @param message
+     * @return this function accept double and int and control if the user
+     * introduce a number and not a String
+     */
     public static double askDouble(String message) {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         double num = 0;
@@ -146,6 +201,12 @@ public class Worker {
         return num;
     }
 
+    /**
+     * @param message
+     * @param min
+     * @param max
+     * @return function to askDouble between min and max
+     */
     public static double askDouble(String message, int min, int max) {
         double num;
         do {
