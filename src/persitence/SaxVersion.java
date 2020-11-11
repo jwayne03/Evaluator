@@ -13,8 +13,44 @@ public class SaxVersion extends DefaultHandler {
     private final StringBuilder stringBuilder = new StringBuilder();
     private Students student;
 
-    public List<Students> getGradeAverage() {
+    public List<Students> getGradeAverage(String dni, String subject, String filter) {
+        if (filter.equalsIgnoreCase("subject average")) {
+            getSubjectAverageOfStudent(dni, subject);
+        }
+
+        if (filter.equalsIgnoreCase("student average")) {
+            getStudentAverage(dni,subject);
+        }
         return students;
+    }
+
+    public List<Students> getStudentAverage(String dni, String name) {
+        for (int i = 0; i < students.size(); i++) {
+            if (dni.equalsIgnoreCase(student.getDni())) {
+                if (name.equalsIgnoreCase(student.getName())) {
+                    System.out.println("The total average of the student is: " + student.getGrades());
+                } else {
+                    System.err.println("The name of the student doesn't exist");
+                }
+            } else {
+                System.err.println("The dni of the student doesn't exist");
+            }
+        }
+        return students;
+    }
+
+    private void getSubjectAverageOfStudent(String dni, String subject) {
+        for (int i = 0; i < students.size(); i++) {
+            if (dni.equalsIgnoreCase(student.getDni())) {
+                if (subject.equalsIgnoreCase(student.getSubject())) {
+                    System.out.println("The average of the student in: " + subject + " is " + student.getGrades());
+                } else {
+                    System.err.println("This subject doesn't exists");
+                }
+            } else {
+                System.err.println("Student not found or not registered.");
+            }
+        }
     }
 
     @Override

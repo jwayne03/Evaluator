@@ -18,41 +18,15 @@ public class Students {
         this.grades = grades;
     }
 
-    public Students() {
-
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDni() {
-        return dni;
-    }
-
-    public void setDni(String dni) {
-        this.dni = dni;
-    }
-
-    public String getSubject() {
-        return subject;
-    }
-
-    public void setSubject(String subject) {
-        this.subject = subject;
-    }
-
-    public String getGrades() {
-        return grades;
-    }
-
-    public void setGrades(String grades) {
-        this.grades = grades;
-    }
+    public Students() { }
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+    public String getDni() { return dni; }
+    public void setDni(String dni) { this.dni = dni; }
+    public String getSubject() { return subject; }
+    public void setSubject(String subject) { this.subject = subject; }
+    public String getGrades() { return grades; }
+    public void setGrades(String grades) { this.grades = grades; }
 
     @Override
     public String toString() {

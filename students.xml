@@ -1,46 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?><stucom>
     <student dni="123">
         <name>wayne</name>
-        <subject name="java">
-            <grade>10.0</grade>
-        </subject>
         <subject name="android">
-            <grade>9.0</grade>
-        </subject>
-        <subject name="math">
-            <grade>8.0</grade>
+            <grade>10.0</grade>
         </subject>
     </student>
-    <student dni="222">
-        <name>karen</name>
-        <subject name="design">
-            <grade>10.0</grade>
-            <grade>10.0</grade>
-        </subject>
-        <subject name="edification">
-            <grade>10.0</grade>
-        </subject>
-        <subject name="math">
-            <grade>9.0</grade>
-        </subject>
-    </student>
-    <student dni="333">
-        <name>nics</name>
-        <subject name="nursing">
-            <grade>10.0</grade>
-        </subject>
-        <subject name="science">
-            <grade>10.0</grade>
-        </subject>
-    <subject name="english"><grade>10.0</grade></subject></student>
-    <student dni="222">
-        <name>aa</name>
-        <name>add</name>
-    </student>
-    <student dni="000">
-        <name>nadi</name>
-        <subject name="java">
-            <grade>10.0</grade>
-        </subject>
-    <subject name="ios"><grade>10.0</grade></subject></student>
 </stucom>

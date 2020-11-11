@@ -28,7 +28,7 @@ public class Worker {
                 System.out.println(message);
                 answer = read.readLine();
                 if (answer.equals("")) {
-                    System.out.println("You must write something");
+                    System.err.println("You must write something");
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -50,7 +50,7 @@ public class Worker {
             try {
                 System.out.println(message);
                 answer = read.readLine().toLowerCase();
-                if (answer.equals("")) System.out.println("You must write something");
+                if (answer.equals("")) System.err.println("You must write something");
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -72,7 +72,7 @@ public class Worker {
             try {
                 System.out.println(message);
                 answer = read.readLine().toUpperCase();
-                if (answer.equals("")) System.out.println("You must write something");
+                if (answer.equals("")) System.err.println("You must write something");
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -94,7 +94,7 @@ public class Worker {
         do {
             answer = askString(message);
             if (!answer.equalsIgnoreCase(a) && !answer.equalsIgnoreCase(b)) {
-                System.out.println("ERROR! Write " + a + " or " + b + " please");
+                System.err.println("ERROR! Write " + a + " or " + b + " please");
             }
         } while (!answer.equalsIgnoreCase(a) && !answer.equalsIgnoreCase(b));
         return answer;
@@ -116,7 +116,7 @@ public class Worker {
             answer = Worker.askString(message);
             isWordOk = wordIsOk(answer, wordsAccepted);
             if (!isWordOk) {
-                System.out.println("Wrong answer!");
+                System.err.println("Wrong answer!");
             }
         } while (!isWordOk);
         return answer;
@@ -151,10 +151,10 @@ public class Worker {
                 num = Integer.parseInt(br.readLine());
                 error = false;
             } catch (IOException ex) {
-                System.out.println("Error input / output.");
+                System.err.println("Error input / output.");
                 error = true;
             } catch (NumberFormatException ex) {
-                System.out.println("Please, write integer number.");
+                System.err.println("Please, write integer number.");
                 error = true;
             }
         } while (error);
@@ -172,7 +172,7 @@ public class Worker {
         do {
             num = askInt(message);
             if (num < min || num > max) {
-                System.out.println("Unavailable option. Choose between STARTER(1), MAIN(2), DESSERT(3)");
+                System.err.println("Unavailable option. Choose between STARTER(1), MAIN(2), DESSERT(3)");
             }
         } while (num < min || num > max);
         return num;
@@ -193,10 +193,10 @@ public class Worker {
                 num = Double.parseDouble(br.readLine());
                 error = false;
             } catch (IOException ex) {
-                System.out.println("Error input / output.");
+                System.err.println("Error input / output.");
                 error = true;
             } catch (NumberFormatException ex) {
-                System.out.println("Please, write double number.");
+                System.err.println("Please, write double number.");
                 error = true;
             }
         } while (error);
@@ -214,7 +214,7 @@ public class Worker {
         do {
             num = askDouble(message);
             if (num < min || num > max) {
-                System.out.println("Error, the number must be between " + min + " and " + max);
+                System.err.println("Error, the number must be between " + min + " and " + max);
             }
         } while (num < min || num > max);
         return num;
