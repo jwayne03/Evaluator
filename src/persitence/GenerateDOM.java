@@ -122,8 +122,17 @@ public class GenerateDOM {
             if (subjectNode == null) {
                 createGrade(subject, grades, studentNode);
             } else {
-                System.out.println("The dni you have introduced doesn't exits");
+                if (subjectNode.getChildNodes().getLength() < 10) {
+                    Element grade = document.createElement("grade");
+                    grade.appendChild(document.createTextNode(String.valueOf(grades)));
+                    subjectNode.appendChild(grade);
+                    document.normalize();
+                } else {
+                    System.err.println("You have entered more 10 grades.");
+                }
             }
+        } else {
+            System.out.println("The dni you have introduced doesn't exits");
         }
     }
 
@@ -168,7 +177,6 @@ public class GenerateDOM {
     public void readFile() {
         document.getDocumentElement().normalize();
         NodeList studentList = document.getElementsByTagName("student");
-
         for (int i = 0; i < studentList.getLength(); i++) {
             Node node = studentList.item(i);
             System.out.print("<" + node.getNodeName());

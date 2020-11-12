@@ -1,5 +1,7 @@
 package manager;
 
+import model.Students;
+import model.Subjects;
 import org.xml.sax.SAXException;
 import persitence.GenerateDOM;
 import persitence.SaxVersion;
@@ -10,6 +12,7 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * @author John Wayne Carreon
@@ -20,6 +23,8 @@ public class Manager implements Runnable {
     private static Manager manager;
     private final GenerateDOM generateDOM;
     private final SaxVersion saxVersion;
+    private Students student;
+    private Subjects subject;
 
     private Manager() {
         saxVersion = new SaxVersion();
@@ -61,6 +66,7 @@ public class Manager implements Runnable {
         String name = Worker.askString("Introduce the name of the student:");
         String dni = Worker.askString("Introuce the DNI of the student:");
         generateDOM.student(name, dni);
+        student = new Students(name, dni);
     }
 
     private void introduceSubjectIntoGrade() {
@@ -91,7 +97,8 @@ public class Manager implements Runnable {
             String dni = Worker.askString("Introduce the DNI of the student do you want to find the average :");
             String subject = Worker.askString("Introduce the subject do you want to find: ");
 
-            saxVersion.getGradeAverage(dni, subject, filter);
+
+//            saxVersion.getGradeAverage(dni, subject, filter);
         } catch (ParserConfigurationException | IOException | SAXException e) {
             e.printStackTrace();
         }
@@ -99,20 +106,27 @@ public class Manager implements Runnable {
 
     private void giveStudentGradeAverage() {
         try {
-            SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
-            SAXParser saxParser = saxParserFactory.newSAXParser();
-            File file = new File("students.xml");
-            SaxVersion saxVersion = new SaxVersion();
-            saxParser.parse(file, saxVersion);
-
+            ArrayList<Students> stu = sax();
             String filter = "student average";
             String dni = Worker.askString("Introduce the dni of the student: ");
             String studentName = Worker.askString("Introduce the name of the student");
 
-            saxVersion.getGradeAverage(dni, studentName, filter);
+//            System.out.println(stu.get(0).getAverage());
+
+//            saxVersion.getGradeAverage(dni, studentName, filter);
         } catch (ParserConfigurationException | IOException | SAXException e) {
             e.printStackTrace();
         }
+    }
+
+    private ArrayList<Students> sax() throws ParserConfigurationException, SAXException, IOException {
+        SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
+        SAXParser saxParser = saxParserFactory.newSAXParser();
+        File file = new File("students.xml");
+        SaxVersion saxVersion = new SaxVersion();
+        saxParser.parse(file, saxVersion);
+        ArrayList<Students> saxStudents = saxVersion.getStudents();
+        return saxStudents;
     }
 
     private void printMenu() {
