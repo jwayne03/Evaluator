@@ -91,14 +91,14 @@ public class Manager implements Runnable {
             File file = new File("students.xml");
             SaxVersion saxVersion = new SaxVersion();
             saxParser.parse(file, saxVersion);
-//            List<Students> students = saxVersion.getGradeAverage();
+
+            ArrayList<Students> stundent = new ArrayList<>();
 
             String filter = "subject average";
             String dni = Worker.askString("Introduce the DNI of the student do you want to find the average :");
             String subject = Worker.askString("Introduce the subject do you want to find: ");
 
-
-//            saxVersion.getGradeAverage(dni, subject, filter);
+            System.out.println();
         } catch (ParserConfigurationException | IOException | SAXException e) {
             e.printStackTrace();
         }
@@ -110,6 +110,7 @@ public class Manager implements Runnable {
             String filter = "student average";
             String dni = Worker.askString("Introduce the dni of the student: ");
             String studentName = Worker.askString("Introduce the name of the student");
+
 
 //            System.out.println(stu.get(0).getAverage());
 

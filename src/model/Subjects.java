@@ -28,17 +28,15 @@ public class Subjects {
         this.grades.add(grades);
     }
 
-    //    public double getAverage() {
-//        ArrayList<Students> students = new ArrayList<>();
-//        ArrayList<Double> grades = new ArrayList<Double>();
-//        int count = 0;
-//        double average = 0;
-//
-//        for (Students i: students) {
-//            average += i.getGrades();
-//            grades.add(average);
-//            count++;
-//        }
-//        return average / count;
-//    }
+    public double getAverage() {
+
+        int count = 0;
+        double average = 0;
+
+        for (Double i: getGrades()) {
+            average += i;
+            count++;
+        }
+        return average / count;
+    }
 }

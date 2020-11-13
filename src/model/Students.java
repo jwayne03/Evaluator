@@ -22,7 +22,6 @@ public class Students {
     public String getDni() { return dni; }
     public void setDni(String dni) { this.dni = dni; }
 
-
     @Override
     public String toString() {
         return "Students: " +

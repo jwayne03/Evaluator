@@ -14,8 +14,6 @@ public class SaxVersion extends DefaultHandler {
     private Students student;
     private Subjects subject;
 
-
-
     @Override
     public void characters(char[] ch, int start, int length) {
         stringBuilder.append(ch, start, length);

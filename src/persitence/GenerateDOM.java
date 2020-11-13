@@ -92,14 +92,14 @@ public class GenerateDOM {
         school.appendChild(student);
     }
 
-    private Element findDni(String dni) {
+    public Element findDni(String dni) {
         document.getDocumentElement().normalize();
         Element studentNode = null;
         NodeList studentNodeList = document.getElementsByTagName("student");
         return findDniNode(dni, studentNode, studentNodeList);
     }
 
-    private Element findDniNode(String dni, Element studentNode, @NotNull NodeList studentNodeList) {
+    public Element findDniNode(String dni, Element studentNode, @NotNull NodeList studentNodeList) {
         for (int i = 0; i < studentNodeList.getLength(); i++) {
             Node student = studentNodeList.item(i);
             if (student.getNodeType() == Node.ELEMENT_NODE) {
