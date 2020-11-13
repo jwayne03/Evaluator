@@ -12,6 +12,10 @@ public class Subjects {
         grades = new ArrayList<>();
     }
 
+    public Subjects() {
+        grades = new ArrayList<>();
+    }
+
     public String getSubject() {
         return subject;
     }
@@ -29,11 +33,10 @@ public class Subjects {
     }
 
     public double getAverage() {
-
         int count = 0;
         double average = 0;
 
-        for (Double i: getGrades()) {
+        for (Double i : getGrades()) {
             average += i;
             count++;
         }

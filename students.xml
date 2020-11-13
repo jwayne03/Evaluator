@@ -8,6 +8,19 @@
         <subject name="math">
             <grade>9.0</grade>
             <grade>0.0</grade>
+            <grade>1.0</grade>
+        </subject>
+        <subject name="ios">
+            <grade>10.0</grade>
+        </subject>
+    </student>
+    <student dni="11">
+        <name>Ivan</name>
+        <subject name="java">
+            <grade>10.0</grade>
+        </subject>
+        <subject name="php">
+            <grade>0.0</grade>
         </subject>
     </student>
 </stucom>

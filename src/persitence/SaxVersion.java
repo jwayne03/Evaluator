@@ -26,8 +26,12 @@ public class SaxVersion extends DefaultHandler {
                 student = new Students();
                 students.add(student);
                 student.setDni(attributes.getValue("dni"));
+                break;
             case "subject":
+                subject = new Subjects();
                 subject.setSubject(attributes.getValue("name"));
+                student.setSubjects(subject);
+                break;
             case "name":
             case "grade":
                 stringBuilder.delete(0, stringBuilder.length());
@@ -42,7 +46,8 @@ public class SaxVersion extends DefaultHandler {
             case "grade" -> subject.setGrades(Double.parseDouble(stringBuilder.toString()));
         }
     }
-    public ArrayList<Students> getStudents(){
+
+    public ArrayList<Students> getStudents() {
         return students;
     }
 }

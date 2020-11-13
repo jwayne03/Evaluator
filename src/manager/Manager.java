@@ -51,8 +51,8 @@ public class Manager implements Runnable {
                 case 2 -> introduceSubjectIntoGrade();
                 case 3 -> showInfo();
                 case 4 -> saveData();
-                case 5 -> giveGradesAverage();
-                case 6 -> giveStudentGradeAverage();
+                case 5 -> System.out.println(giveGradesAverage());
+                case 6 -> System.out.println(giveStudentGradeAverage());
                 case 0 -> {
                     System.out.println("You have decided to finish, goodbye!");
                     exit = true;
@@ -84,7 +84,10 @@ public class Manager implements Runnable {
         generateDOM.generateXML();
     }
 
-    private void giveGradesAverage() {
+    private double giveGradesAverage() {
+        double average = 0;
+        int count = 0;
+
         try {
             SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
             SAXParser saxParser = saxParserFactory.newSAXParser();
@@ -92,32 +95,52 @@ public class Manager implements Runnable {
             SaxVersion saxVersion = new SaxVersion();
             saxParser.parse(file, saxVersion);
 
-            ArrayList<Students> stundent = new ArrayList<>();
+            ArrayList<Students> stu = sax();
 
-            String filter = "subject average";
             String dni = Worker.askString("Introduce the DNI of the student do you want to find the average :");
             String subject = Worker.askString("Introduce the subject do you want to find: ");
 
+            for (Students students : stu) {
+                if (dni.equalsIgnoreCase(students.getDni())) {
+                    for (Subjects subjects : students.getSubjects()) {
+                        if (subject.equalsIgnoreCase(subjects.getSubject())) {
+                            for (Double avg : subjects.getGrades()) {
+                                average += avg;
+                                count++;
+                            }
+                        }
+                    }
+                }
+            }
             System.out.println();
         } catch (ParserConfigurationException | IOException | SAXException e) {
             e.printStackTrace();
         }
+        return average / count;
     }
 
-    private void giveStudentGradeAverage() {
+    private double giveStudentGradeAverage() {
+        double average = 0;
+        int count = 0;
+
         try {
             ArrayList<Students> stu = sax();
-            String filter = "student average";
             String dni = Worker.askString("Introduce the dni of the student: ");
-            String studentName = Worker.askString("Introduce the name of the student");
 
-
-//            System.out.println(stu.get(0).getAverage());
-
-//            saxVersion.getGradeAverage(dni, studentName, filter);
+            for (Students students : stu) {
+                if (dni.equalsIgnoreCase(students.getDni())) {
+                    for (Subjects subjects : students.getSubjects()) {
+                        for (Double avg : subjects.getGrades()) {
+                            average += avg;
+                            count++;
+                        }
+                    }
+                }
+            }
         } catch (ParserConfigurationException | IOException | SAXException e) {
             e.printStackTrace();
         }
+        return average / count;
     }
 
     private ArrayList<Students> sax() throws ParserConfigurationException, SAXException, IOException {
